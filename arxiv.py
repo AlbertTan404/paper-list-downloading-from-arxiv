@@ -58,9 +58,8 @@ def download_papers(
             # file name mustn't include ':' or other special characters
             filtered_title = " ".join(re.findall(r'[\w\-]+', title))
             urllib.request.urlretrieve(searched_title_link_map[title], f'{paper_save_dir}/{filtered_title}.pdf')
-            print(f'Downloaded {title}.pdf')
         except:
-            print(f'Failed to download {title}.pdf')
+            print(f'Warnning: failed to download {title}.pdf')
 
 
 if __name__ == '__main__':

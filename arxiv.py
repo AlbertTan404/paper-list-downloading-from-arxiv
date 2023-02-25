@@ -1,23 +1,25 @@
 import arxiv
 import urllib.request
 import os
+import re
 from typing import Union, List
 from tqdm import tqdm
 
 
 def same_title(
-    tar_name: str,
-    res_name: str,
-    threshold=0.9
+        tar_name: str,
+        res_name: str,
+        threshold=0.9
 ):
     tar_tokens_set = set(tar_name.split(' '))
     res_tokens_set = set(res_name.split(' '))
-    return len(tar_tokens_set.intersection(res_tokens_set)) * 2 / (len(tar_tokens_set) + len(res_tokens_set)) > threshold
+    return len(tar_tokens_set.intersection(res_tokens_set)) * 2 / (
+            len(tar_tokens_set) + len(res_tokens_set)) > threshold
 
 
 def download_papers(
-    paper_titles: Union[List[str], str],
-    paper_save_dir: str
+        paper_titles: Union[List[str], str],
+        paper_save_dir: str
 ):
     if isinstance(paper_titles, str):
         with open(paper_titles, 'r') as f:
@@ -50,11 +52,13 @@ def download_papers(
 
     for title in same_titles:
         try:
-            urllib.request.urlretrieve(searched_title_link_map[title], f'{paper_save_dir}/{title}.pdf')
+            # file name mustn't include ':' or other special characters
+            filtered_title = " ".join(re.findall(r'[\w\-]+', title))
+            urllib.request.urlretrieve(searched_title_link_map[title], f'{paper_save_dir}/{filtered_title}.pdf')
             print(f'Downloaded {title}.pdf')
         except:
             print(f'Failed to download {title}.pdf')
 
 
 if __name__ == '__main__':
-    download_papers('./icra2022_paper_list.txt', './icra22')
+    download_papers('./paper_list.txt', './papers')

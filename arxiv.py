@@ -41,7 +41,7 @@ def download_papers(
     searched_title_link_map = dict()
     for res in searched_results:
         if len(res) > 0:
-            searched_title_link_map.update({res[0].title: res[0].links[1]})
+            searched_title_link_map.update({res[0].title: res[0].links[1].href})
 
     searched_titles = list(searched_title_link_map.keys())
 

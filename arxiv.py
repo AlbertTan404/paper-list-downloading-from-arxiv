@@ -33,7 +33,10 @@ def download_papers(
     print('searching papers...')
     searched_results = []
     for title in tqdm(paper_titles):
-        searched_results.append([i for i in arxiv.Search(query=title, max_results=1).results()])
+        try:
+            searched_results.append([i for i in arxiv.Search(query=title, max_results=1).results()])
+        except Exception:
+            continue
 
     searched_title_link_map = dict()
     for res in searched_results:

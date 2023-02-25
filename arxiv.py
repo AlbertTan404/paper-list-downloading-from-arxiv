@@ -50,7 +50,7 @@ def download_papers(
 
     print(f'{len(same_titles)} similar papers found, start downloading...')
 
-    for title in same_titles:
+    for title in tqdm(same_titles):
         try:
             # file name mustn't include ':' or other special characters
             filtered_title = " ".join(re.findall(r'[\w\-]+', title))
